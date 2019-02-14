@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_spinner_view"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/dialog_role_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:ms_background_color="#f2f2f2"
+        app:ms_dropdown_height="200dp"
+        app:ms_text_color="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:entries="@array/role_person" />
+
+</LinearLayout>
