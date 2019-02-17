@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoogleTranslateClient {
 
-    //TODO replace_your_own_key
+    //TODO replace your own key
     public static final String BASE_URL = "https://translation.googleapis.com/language/translate/v2/";
     public static final String TRANSLATION_API_KEY = "replace_your_own_key";
 
