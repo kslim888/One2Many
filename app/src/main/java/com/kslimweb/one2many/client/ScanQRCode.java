@@ -1,13 +1,11 @@
 package com.kslimweb.one2many.client;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
-import com.kslimweb.one2many.R;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 

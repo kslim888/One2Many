@@ -52,7 +52,6 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
         button.setOnClickListener(v -> {
             Log.d(TAG, "onClick: ");
             startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCode.class));
-
         });
     }
 

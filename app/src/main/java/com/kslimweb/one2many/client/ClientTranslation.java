@@ -54,7 +54,7 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
         languageSpinner.setOnTouchListener(this);
 
         // ReceiveText will automatically change the text view
-        receiveText = new ReceiveText(outputText);
+        receiveText = new ReceiveText(outputText, languageSpinner, this);
 
         checkAndSubscribeTopic();
 
@@ -90,7 +90,7 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
         Log.d(TAG, "onItemSelected Original Text: " + originalText);
         Log.d(TAG, "onItemSelected selectedLanguage: " + targetLanguage);
 
-        translateText(originalText, targetLanguage);
+        new Utils(outputText, languageSpinner, this).translateText(originalText, targetLanguage);
         isSpinnerTouched = false;
     }
 
@@ -101,7 +101,7 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
         return false;
     }
 
-    private String getSpinnerSelectedLanguage() {
+    public String getSpinnerSelectedLanguage() {
         int languagePosition = languageSpinner.getSelectedIndex();
         Log.d(TAG, "getSpinnerSelectedLanguage Position: " + languagePosition);
 
@@ -154,44 +154,5 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
                 break;
         }
         return languageCode;
-    }
-
-    private void translateText(String inputText, String targetLanguage) {
-
-        GoogleTranslateAPI googleTranslateAPI = GoogleTranslateClient.getClient().create(GoogleTranslateAPI.class);
-
-        googleTranslateAPI.translateWord(inputText,
-                targetLanguage,
-                TRANSLATION_API_KEY).enqueue(new Callback<APIResponse>() {
-            @Override
-            @ParametersAreNonnullByDefault
-            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-
-                Log.d(TAG, response.toString());
-
-                if (response.code() == 200 && response.body() != null) {
-                    Log.d(TAG, response.toString());
-
-                    APIResponse apiResponse = response.body();
-                    Data dataResponse = apiResponse.getData();
-                    List<Translation> translationList = dataResponse.getTranslations();
-
-                    String translatedText = translationList.get(0).getTranslatedText();
-                    outputText.setText(translatedText);
-                    Log.d(TAG, "Translated Text: " + translatedText);
-
-                } else {
-                    Toast.makeText(ClientTranslation.this, "Unable to translate", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onResponse: " + response.message());
-                }
-            }
-
-            @Override
-            @ParametersAreNonnullByDefault
-            public void onFailure(Call<APIResponse> call, Throwable t) {
-                Log.d(TAG,"fail to translate");
-                Log.d(TAG, "onFailure: " + t.getCause().getMessage());
-            }
-        });
     }
 }

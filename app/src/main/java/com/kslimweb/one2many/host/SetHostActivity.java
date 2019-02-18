@@ -65,11 +65,6 @@ public class SetHostActivity extends AppCompatActivity {
                         .putExtra("TOPIC_NAME", topicNameString)
                 );
             }
-
-//            mAuth.signOut();
-//            Toast.makeText(SetHostActivity.this, "Signed Out", Toast.LENGTH_SHORT).show();
-//            startActivity(new Intent(SetHostActivity.this, LoginActivity.class));
-
         });
     }
 

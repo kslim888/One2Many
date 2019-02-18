@@ -6,21 +6,27 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
 public class ReceiveText extends BroadcastReceiver {
 
     private static final String TAG = ReceiveText.class.getSimpleName();
-    TextView textView;
 
-    public ReceiveText(TextView textView) {
-        this.textView = textView;
+    TextView outputText;
+    MaterialSpinner languageSpinner;
+    Utils utils;
+
+    public ReceiveText(TextView outputText, MaterialSpinner languageSpinner, Context context) {
+        this.outputText = outputText;
+        this.languageSpinner = languageSpinner;
+        utils = new Utils(outputText, languageSpinner, context);
     }
-
-    public ReceiveText() { }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String messageNotification = intent.getStringExtra("MESSAGE_BODY");
-        Log.d(TAG, "onReceive: " + messageNotification);
-        textView.setText(messageNotification);
+        String speechToText = intent.getStringExtra("MESSAGE_BODY");
+        String targetLanguage = utils.getSpinnerSelectedLanguage();
+        Log.d(TAG, "onReceive: " + speechToText);
+        utils.translateText(speechToText, targetLanguage);
     }
 }
