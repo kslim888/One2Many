@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                         String personRole = userDocument.getString("personRole");
                         if (personRole != null) {
                             finish();
-                            if (personRole.equals("Teacher")) {
+                            if (personRole.equals("Host")) {
                                 // go to host activity
                                 Log.d(TAG, "checkPersonRole: Teacher");
                                 startActivity(new Intent(LoginActivity.this, SetHostActivity.class));

@@ -14,8 +14,8 @@
     </string>
 
     <string-array name="role_person">
-        <item>Teacher</item>
-        <item>Student</item>
+        <item>Host</item>
+        <item>Client</item>
     </string-array>
 
     <string-array name="list_of_language">
