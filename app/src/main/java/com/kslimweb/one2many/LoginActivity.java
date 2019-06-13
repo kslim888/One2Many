@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Sign In");
+        getSupportActionBar().setTitle("One2Many Sign In");
         setContentView(R.layout.activity_login);
 
         findViews();
@@ -77,7 +77,9 @@ public class LoginActivity extends AppCompatActivity {
         mAuthListener = firebaseAuth -> {
 
             if(!this.isFinishing()) {
-                showProgress();
+                if(!fromEmailSignUp) {
+                    showProgress();
+                }
             }
             Log.i(TAG, "Auth State Fired");
             Log.d(TAG, "onCreate come from email sign up " + fromEmailSignUp);

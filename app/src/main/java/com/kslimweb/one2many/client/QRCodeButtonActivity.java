@@ -51,6 +51,9 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
         Button button = findViewById(R.id.read_qr_button);
         button.setOnClickListener(v -> {
             Log.d(TAG, "onClick: ");
+            //TODO change to below intent to start debug activity
+            //startActivity(new Intent(QRCodeButtonActivity.this, ClientTranslation.class));
+
             startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCode.class));
         });
     }
