@@ -1,5 +1,5 @@
 # One2Many
-[Java Project](https://img.shields.io/badge/java-project-green.svg)
+![Java Project](https://img.shields.io/badge/java-project-green.svg)
 This app is an enhancement for translator functions by outputting results of the translation on multiple smart devices. 
 Unlike the original function that Google Translate offered, which is only able to receives input speech via a single device and display the result on the same device, One2Many Speech Translator able to receives input speech via a single device and display the result on multiple smartphones that have the same app installed
 
