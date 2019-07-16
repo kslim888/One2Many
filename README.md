@@ -1,5 +1,5 @@
 # One2Many
-![Java Project](https://img.shields.io/badge/java-project-green.svg)
+![Android Project](https://img.shields.io/badge/android-project-green.svg)
 > This app is an enhancement for translator functions by outputting results of the translation on multiple smart devices. 
 
 ## Features
@@ -10,7 +10,7 @@ The system largely involves with [University College of Technology Sarawak (UCTS
 The other smart devices, which act as “Client” or “Receiver” is responsible for showing the translated text. Also, the translator can support multiple input and output languages, not just Arabic to Malay. 
 
 ## Getting Started
-Go to https://play.google.com/store/apps/details?id= to install the app
+Go to https://play.google.com/store/apps/details?id=com.kslimweb.one2many to install the app
 
 ### Prerequisites
 You will need an Android phone with Androd version 5.0 (Lolipop) and above
