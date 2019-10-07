@@ -9,14 +9,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.kslimweb.one2many.R;
-import com.kslimweb.one2many.client.ClientTranslation;
 
 import java.util.Random;
 
@@ -24,11 +23,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.kslimweb.one2many.host.ShowQRCode.SUBSCRIBE_TOPIC;
+import static com.kslimweb.one2many.host.ShowQRCodeActivity.SUBSCRIBE_TOPIC;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class FirebaseCloudMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
+    private static final String TAG = FirebaseCloudMessagingService.class.getSimpleName();
 
     /**
      * Called when message is received.
@@ -39,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         if(remoteMessage.getNotification() != null) {
-            Log.d(TAG, "FCM Data: " + remoteMessage.getData());
+            Log.d(TAG, "FCM TranslationData: " + remoteMessage.getData());
             Log.d(TAG, "FCM Title: " + remoteMessage.getNotification().getTitle());
             Log.d(TAG, "FCM Message: " + remoteMessage.getNotification().getBody());
 
@@ -98,31 +97,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
      public void sendNotification(String title, String body) {
-        NotifyData notifyData = new NotifyData(title, body);
-        FirebaseMessage firebaseMessage = new FirebaseMessage("/topics/" + SUBSCRIBE_TOPIC, notifyData);
+        NotificationDataModel notifyData = new NotificationDataModel(title, body);
+        FirebaseMessageModel firebaseMessage = new FirebaseMessageModel("/topics/" + SUBSCRIBE_TOPIC, notifyData);
 
         FirebaseAPI firebaseAPI = FirebaseClient.getClient().create(FirebaseAPI.class);
-        Call<FirebaseMessage> call = firebaseAPI.sendMessage(firebaseMessage);
-        call.enqueue(new Callback<FirebaseMessage>() {
+        Call<FirebaseMessageModel> call = firebaseAPI.sendMessage(firebaseMessage);
+        call.enqueue(new Callback<FirebaseMessageModel>() {
             @Override
-            public void onResponse(Call<FirebaseMessage> call, Response<FirebaseMessage> response) {
+            public void onResponse(Call<FirebaseMessageModel> call, Response<FirebaseMessageModel> response) {
                 Log.d(TAG, call.request().toString());
             }
 
             @Override
-            public void onFailure(Call<FirebaseMessage> call, Throwable t) {
+            public void onFailure(Call<FirebaseMessageModel> call, Throwable t) {
                 Log.d(TAG,"Message Failed send");
                 Log.d(TAG, t.getMessage());
             }
         });
     }
 
-    /**
-     * Persist token to third-party servers.
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param token
+    /*
+      Persist token to third-party servers.
+      Modify this method to associate the user's FCM InstanceID token with any server-side account
+      maintained by your application.
+
+      @param token
      */
 //    public void sendRegistrationToServer(String token) {
 //        FirebaseDatabase database = FirebaseDatabase.getInstance();

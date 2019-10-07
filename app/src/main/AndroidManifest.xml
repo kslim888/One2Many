@@ -32,11 +32,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".client.ScanQRCode"></activity>
-        <activity android:name=".client.ClientTranslation" />
+        <activity android:name=".client.ScanQRCodeActivity" />
+        <activity android:name=".client.ClientTranslationActivity" />
         <activity android:name=".client.QRCodeButtonActivity" />
         <activity android:name=".host.SpeechToTextActivity" />
-        <activity android:name=".host.ShowQRCode" />
+        <activity android:name=".host.ShowQRCodeActivity" />
         <activity android:name=".SignUp" />
         <activity
             android:name=".host.SetHostActivity"
@@ -54,7 +54,7 @@
             android:exported="true"
             android:permission="com.kslimweb.CUSTOM_PERMISSION" />
 
-        <service android:name="com.kslimweb.firebasemessasging.MyFirebaseMessagingService">
+        <service android:name="com.kslimweb.firebasemessasging.FirebaseCloudMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

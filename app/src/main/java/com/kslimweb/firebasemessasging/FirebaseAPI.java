@@ -10,5 +10,5 @@ public interface FirebaseAPI {
     @Headers({"Authorization: key=replace_your_own_key",
             "Content-Type:application/json"})
         @POST("fcm/send")
-    Call<FirebaseMessage> sendMessage(@Body FirebaseMessage message);
+    Call<FirebaseMessageModel> sendMessage(@Body FirebaseMessageModel message);
 }

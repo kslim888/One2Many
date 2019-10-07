@@ -4,34 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.kslimweb.firebasemessasging.MyFirebaseMessagingService;
-import com.kslimweb.googletranslate.APIResponse;
-import com.kslimweb.googletranslate.Data;
-import com.kslimweb.googletranslate.GoogleTranslateAPI;
-import com.kslimweb.googletranslate.GoogleTranslateClient;
-import com.kslimweb.googletranslate.Translation;
+import com.kslimweb.firebasemessasging.FirebaseCloudMessagingService;
 import com.kslimweb.one2many.R;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.kslimweb.googletranslate.GoogleTranslateClient.TRANSLATION_API_KEY;
-import static com.kslimweb.one2many.host.ShowQRCode.SUBSCRIBE_TOPIC;
+import static com.kslimweb.one2many.host.ShowQRCodeActivity.SUBSCRIBE_TOPIC;
 
 public class SpeechToTextActivity extends AppCompatActivity {
 
@@ -54,15 +38,13 @@ public class SpeechToTextActivity extends AppCompatActivity {
         final Button speechToTextButton = findViewById(R.id.speech_to_text_button);
         speechToTextButton.setOnClickListener(v -> inputSpeech());
 
-        // Might unnecessary to speak result
-        // outputSpeech method associated with this object
-       // textToSpeech = new TextToSpeech(this, status -> checkCanSpeakLanguage(status));
+        // outputSpeech method associated with this object listener callback
+        textToSpeech = new TextToSpeech(this, this::checkCanSpeakLanguage);
 
         checkAndSubscribeTopic();
 
-        // list of supported input language
-        // getSupportedInputLanguages();
-
+        // Check list of supported input language for that device
+//        getSupportedInputLanguages();
     }
 
     private void setInputSpeechLanguage() {
@@ -145,6 +127,7 @@ public class SpeechToTextActivity extends AppCompatActivity {
                 languageCode = "vi";
                 break;
         }
+        textToSpeech.setLanguage(new Locale(languageCode));
         return languageCode;
     }
 
@@ -152,23 +135,17 @@ public class SpeechToTextActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
+        if (requestCode == REQ_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && null != data) {
 
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String speechToText = result.get(0);
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                String speechToText = result.get(0);
+                Log.d(TAG, "onActivityResult speechToText: " + speechToText);
+                this.speechToText.setText(speechToText);
 
-                    Log.d(TAG, "onActivityResult speechToText: " + speechToText);
-
-                    this.speechToText.setText(speechToText);
-
-                    // outputSpeech();
-                    new MyFirebaseMessagingService().sendNotification("One2Many", speechToText);
-
-                    //translateText(speechToText);
-                }
-                break;
+                // TODO uncomment to speak the text
+                outputSpeech();
+                new FirebaseCloudMessagingService().sendNotification("One2Many", speechToText);
             }
         }
     }
@@ -180,43 +157,6 @@ public class SpeechToTextActivity extends AppCompatActivity {
             textToSpeech.shutdown();
         }
         super.onDestroy();
-    }
-
-    public void translateText(String inputText) {
-        GoogleTranslateAPI googleTranslateAPI = GoogleTranslateClient.getClient().create(GoogleTranslateAPI.class);
-
-        googleTranslateAPI.translateWord(inputText,
-                "en",
-                "ms",
-                TRANSLATION_API_KEY).enqueue(new Callback<APIResponse>() {
-            @Override
-            @ParametersAreNonnullByDefault
-            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-
-                if (response.code() == 200 && response.body() != null) {
-                    Log.d(TAG, response.toString());
-
-                    APIResponse apiResponse = response.body();
-                    Data dataResponse = apiResponse.getData();
-                    List<Translation> translationList = dataResponse.getTranslations();
-
-                    String translatedText = translationList.get(0).getTranslatedText();
-                    // translationText.setText(translatedText);
-                    Log.d(TAG, "Translated Text: " + translatedText);
-
-                } else {
-                    Toast.makeText(SpeechToTextActivity.this, "Unable to translate", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onResponse: " + response.message());
-                }
-            }
-
-            @Override
-            @ParametersAreNonnullByDefault
-            public void onFailure(Call<APIResponse> call, Throwable t) {
-                Log.d(TAG,"fail to translate");
-                Log.d(TAG, "onFailure: " + t.getCause().getMessage());
-            }
-        });
     }
 
     private void getSupportedInputLanguages() {
@@ -232,7 +172,7 @@ public class SpeechToTextActivity extends AppCompatActivity {
             String language = Locale.getDefault().getDisplayLanguage();
             int result = textToSpeech.setLanguage(Locale.getDefault());
 
-            Log.d(TAG, "Avaiable Text to Speech Language");
+            Log.d(TAG, "Available Text to Speech Language");
             Log.d(TAG, "================================");
             Log.d(TAG, textToSpeech.getAvailableLanguages().toString());
 
@@ -246,8 +186,7 @@ public class SpeechToTextActivity extends AppCompatActivity {
         }
     }
 
-    private void outputSpeech() {
+    void outputSpeech() {
         textToSpeech.speak(speechToText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
     }
-
 }

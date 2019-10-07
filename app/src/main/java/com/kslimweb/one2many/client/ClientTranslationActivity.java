@@ -3,37 +3,24 @@ package com.kslimweb.one2many.client;
 import android.annotation.SuppressLint;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.kslimweb.googletranslate.APIResponse;
-import com.kslimweb.googletranslate.Data;
-import com.kslimweb.googletranslate.GoogleTranslateAPI;
-import com.kslimweb.googletranslate.GoogleTranslateClient;
-import com.kslimweb.googletranslate.Translation;
+import com.kslimweb.one2many.BuildConfig;
 import com.kslimweb.one2many.R;
+import com.kslimweb.one2many.Utils;
 
-import java.util.List;
+import static com.kslimweb.one2many.client.ScanQRCodeActivity.SUBSCRIBE_TOPIC;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+public class ClientTranslationActivity extends AppCompatActivity implements MaterialSpinner.OnItemSelectedListener, MaterialSpinner.OnTouchListener {
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.kslimweb.googletranslate.GoogleTranslateClient.TRANSLATION_API_KEY;
-import static com.kslimweb.one2many.client.ScanQRCode.SUBSCRIBE_TOPIC;
-
-public class ClientTranslation extends AppCompatActivity implements MaterialSpinner.OnItemSelectedListener, MaterialSpinner.OnTouchListener {
-
-    private static final String TAG = ClientTranslation.class.getSimpleName();
+    private static final String TAG = ClientTranslationActivity.class.getSimpleName();
     private boolean isSpinnerTouched = false;
     TextView outputText;
     MaterialSpinner languageSpinner;
@@ -48,13 +35,17 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
         outputText = findViewById(R.id.output_text);
         languageSpinner = findViewById(R.id.language_spinner);
 
+        if (BuildConfig.DEBUG) {
+            SUBSCRIBE_TOPIC = "test-test";
+        }
+
         setSpinnerItem();
 
         languageSpinner.setOnItemSelectedListener(this);
         languageSpinner.setOnTouchListener(this);
 
         // ReceiveText will automatically change the text view
-        receiveText = new ReceiveText(outputText, languageSpinner, this);
+        receiveText = new ReceiveText(outputText, languageSpinner, this.getApplicationContext());
 
         checkAndSubscribeTopic();
 
@@ -90,7 +81,7 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
         Log.d(TAG, "onItemSelected Original Text: " + originalText);
         Log.d(TAG, "onItemSelected selectedLanguage: " + targetLanguage);
 
-        new Utils(outputText, languageSpinner, this).translateText(originalText, targetLanguage);
+        new Utils(outputText, languageSpinner, this.getApplicationContext()).translateText(originalText, targetLanguage);
         isSpinnerTouched = false;
     }
 
@@ -101,7 +92,7 @@ public class ClientTranslation extends AppCompatActivity implements MaterialSpin
         return false;
     }
 
-    public String getSpinnerSelectedLanguage() {
+    String getSpinnerSelectedLanguage() {
         int languagePosition = languageSpinner.getSelectedIndex();
         Log.d(TAG, "getSpinnerSelectedLanguage Position: " + languagePosition);
 

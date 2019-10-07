@@ -13,9 +13,6 @@ public class Translation {
     @Expose
     private String detectedSourceLanguage;
 
-    public Translation() {
-    }
-
     public Translation(String translatedText, String detectedSourceLanguage) {
         super();
         this.translatedText = translatedText;

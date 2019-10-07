@@ -2,7 +2,7 @@ package com.kslimweb.one2many.host;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kslimweb.one2many.LoginActivity;
 import com.kslimweb.one2many.R;
-
-import java.util.Set;
 
 public class SetHostActivity extends AppCompatActivity {
 
@@ -60,7 +58,7 @@ public class SetHostActivity extends AppCompatActivity {
                 String classNameString = className.getText().toString();
                 String topicNameString = topicName.getText().toString();
 
-                startActivity(new Intent(SetHostActivity.this, ShowQRCode.class)
+                startActivity(new Intent(SetHostActivity.this, ShowQRCodeActivity.class)
                         .putExtra("CLASS_NAME", classNameString)
                         .putExtra("TOPIC_NAME", topicNameString)
                 );
@@ -115,9 +113,7 @@ public class SetHostActivity extends AppCompatActivity {
 
                         // google sign out
                         mGoogleSignInClient.signOut().addOnCompleteListener(this,
-                                task -> {
-                                    startActivity(new Intent(SetHostActivity.this, LoginActivity.class));
-                                });
+                                task -> startActivity(new Intent(SetHostActivity.this, LoginActivity.class)));
                     }
                 })
                 .show();

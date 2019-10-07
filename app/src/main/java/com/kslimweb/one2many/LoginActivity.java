@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +31,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kslimweb.one2many.client.QRCodeButtonActivity;
 import com.kslimweb.one2many.host.SetHostActivity;
+
+import java.util.Objects;
 
 import static com.kslimweb.one2many.SignUp.fromEmailSignUp;
 
@@ -61,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("One2Many Sign In");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("One2Many Sign In");
         setContentView(R.layout.activity_login);
 
         findViews();
@@ -290,6 +292,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
 
                         if(checkIsEmailVerified()) {
+                            progressDialog.dismiss();
                             checkPersonRole();
                             Log.d(TAG, "attemptLogin: success ");
                         }

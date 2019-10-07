@@ -5,16 +5,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Data {
+public class TranslationData {
 
     @SerializedName("translations")
     @Expose
-    private List<Translation> translations = null;
+    private List<Translation> translations;
 
-    public Data() {
-    }
-
-    public Data(List<Translation> translations) {
+    public TranslationData(List<Translation> translations) {
         super();
         this.translations = translations;
     }

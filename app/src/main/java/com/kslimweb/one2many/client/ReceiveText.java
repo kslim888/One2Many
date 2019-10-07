@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
-
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.kslimweb.one2many.Utils;
 
 public class ReceiveText extends BroadcastReceiver {
 

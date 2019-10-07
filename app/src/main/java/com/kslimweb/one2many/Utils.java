@@ -1,18 +1,20 @@
-package com.kslimweb.one2many.client;
+package com.kslimweb.one2many;
 
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.kslimweb.googletranslate.APIResponse;
-import com.kslimweb.googletranslate.Data;
+import com.kslimweb.googletranslate.TranslationData;
 import com.kslimweb.googletranslate.GoogleTranslateAPI;
 import com.kslimweb.googletranslate.GoogleTranslateClient;
 import com.kslimweb.googletranslate.Translation;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -22,7 +24,7 @@ import retrofit2.Response;
 
 import static com.kslimweb.googletranslate.GoogleTranslateClient.TRANSLATION_API_KEY;
 
-class Utils {
+public class Utils {
 
     private static final String TAG = Utils.class.getSimpleName();
 
@@ -30,16 +32,17 @@ class Utils {
     private MaterialSpinner languageSpinner;
     private Context context;
 
-    Utils(TextView outputText, MaterialSpinner languageSpinner, Context context) {
+    public Utils(TextView outputText, MaterialSpinner languageSpinner, Context context) {
         this.outputText = outputText;
         this.languageSpinner = languageSpinner;
         this.context = context;
     }
 
-    void translateText(String inputText, String targetLanguage) {
+    public void translateText(String inputText, String targetLanguage) {
 
         GoogleTranslateAPI googleTranslateAPI = GoogleTranslateClient.getClient().create(GoogleTranslateAPI.class);
 
+        // TODO googleTranslateAPI.translateWord(inputText, "en", "ms", TRANSLATION_API_KEY) for testing
         googleTranslateAPI.translateWord(inputText,
                 targetLanguage,
                 TRANSLATION_API_KEY).enqueue(new Callback<APIResponse>() {
@@ -53,7 +56,7 @@ class Utils {
                     Log.d(TAG, response.toString());
 
                     APIResponse apiResponse = response.body();
-                    Data dataResponse = apiResponse.getData();
+                    TranslationData dataResponse = apiResponse.getData();
                     List<Translation> translationList = dataResponse.getTranslations();
 
                     String translatedText = translationList.get(0).getTranslatedText();
@@ -75,7 +78,7 @@ class Utils {
         });
     }
 
-    String getSpinnerSelectedLanguage() {
+    public String getSpinnerSelectedLanguage() {
         int languagePosition = languageSpinner.getSelectedIndex();
         Log.d(TAG, "getSpinnerSelectedLanguage Position: " + languagePosition);
 
@@ -85,7 +88,7 @@ class Utils {
                 languageCode = "ar";
                 break;
             case 1:
-                languageCode = "zh-CN";
+                languageCode = "zh";
                 break;
             case 2:
                 languageCode = "en";

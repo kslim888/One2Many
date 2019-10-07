@@ -7,21 +7,9 @@ public class APIResponse {
 
     @SerializedName("data")
     @Expose
-    private Data data;
+    private TranslationData data;
 
-    public APIResponse() {
-    }
-
-    public APIResponse(Data data) {
-        super();
-        this.data = data;
-    }
-
-    public Data getData() {
+    public TranslationData getData() {
         return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
     }
 }

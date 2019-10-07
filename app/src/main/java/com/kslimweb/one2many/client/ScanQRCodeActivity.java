@@ -2,20 +2,21 @@ package com.kslimweb.one2many.client;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ScanQRCode extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
-    private static final String TAG = ScanQRCode.class.getSimpleName();
+    private static final String TAG = ScanQRCodeActivity.class.getSimpleName();
     ZXingScannerView scannerView;
-    // TODO Hardcode SUBSCRIBE_TOPIC to debug the app
-    // Class-Topic
-    public static String SUBSCRIBE_TOPIC = "";
+
+    // TODO set build variant to debug
+    //  Class-Topic [test-test]
+    public static String SUBSCRIBE_TOPIC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class ScanQRCode extends AppCompatActivity implements ZXingScannerView.Re
         Log.d(TAG, "handleResult: " + result.getText());
         String qrCodeValue = result.getText();
         SUBSCRIBE_TOPIC = qrCodeValue;
-        startActivity(new Intent(ScanQRCode.this, ClientTranslation.class));
+        startActivity(new Intent(ScanQRCodeActivity.this, ClientTranslationActivity.class));
     }
 
     @Override
