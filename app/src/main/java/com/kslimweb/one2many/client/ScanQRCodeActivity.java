@@ -14,13 +14,14 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     private static final String TAG = ScanQRCodeActivity.class.getSimpleName();
     ZXingScannerView scannerView;
 
-    // TODO set build variant for debugging
-    //  Class-Topic will become [test-test]
+    // TODO set build variant to debug
+    //  Class-Topic [test-test]
     public static String SUBSCRIBE_TOPIC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         scannerView = new ZXingScannerView(this);
         setContentView(scannerView);
     }

@@ -4,22 +4,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.kslimweb.one2many.utils.BuildTypeUtil;
+import com.kslimweb.one2many.BuildConfig;
 import com.kslimweb.one2many.LoginActivity;
 import com.kslimweb.one2many.R;
 
@@ -49,10 +48,12 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
 
         Button button = findViewById(R.id.read_qr_button);
         button.setOnClickListener(v -> {
-            if (BuildTypeUtil.isReleaseBuild()) {
-                startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCodeActivity.class));
-            } else {
+            Log.d(TAG, "onClick: ");
+
+            if (BuildConfig.DEBUG) {
                 startActivity(new Intent(QRCodeButtonActivity.this, ClientTranslationActivity.class));
+            } else {
+                startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCodeActivity.class));
             }
         });
     }

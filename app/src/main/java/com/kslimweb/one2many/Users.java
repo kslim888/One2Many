@@ -1,4 +1,4 @@
-package com.kslimweb.one2many.signup;
+package com.kslimweb.one2many;
 
 public class Users {
     private String email, personRole;

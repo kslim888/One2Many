@@ -1,4 +1,4 @@
-package com.kslimweb.one2many.db;
+package com.kslimweb.one2many;
 
 import android.util.Log;
 import android.widget.Spinner;
@@ -7,7 +7,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.kslimweb.one2many.signup.Users;
 
 public class Firestore {
 
