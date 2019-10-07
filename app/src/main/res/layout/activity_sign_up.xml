@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".signup.SignUpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

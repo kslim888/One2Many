@@ -1,4 +1,4 @@
-package com.kslimweb.googletranslate;
+package com.kslimweb.googletranslate.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

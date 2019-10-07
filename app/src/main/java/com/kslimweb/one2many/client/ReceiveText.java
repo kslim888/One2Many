@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.kslimweb.one2many.Utils;
+import com.kslimweb.one2many.utils.TranslateAndOutputUtils;
 
 public class ReceiveText extends BroadcastReceiver {
 
@@ -14,19 +14,19 @@ public class ReceiveText extends BroadcastReceiver {
 
     TextView outputText;
     MaterialSpinner languageSpinner;
-    Utils utils;
+    TranslateAndOutputUtils translateAndOutputUtils;
 
     public ReceiveText(TextView outputText, MaterialSpinner languageSpinner, Context context) {
         this.outputText = outputText;
         this.languageSpinner = languageSpinner;
-        utils = new Utils(outputText, languageSpinner, context);
+        translateAndOutputUtils = new TranslateAndOutputUtils(outputText, languageSpinner, context);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String speechToText = intent.getStringExtra("MESSAGE_BODY");
-        String targetLanguage = utils.getSpinnerSelectedLanguage();
+        String targetLanguage = translateAndOutputUtils.getSpinnerSelectedLanguage();
         Log.d(TAG, "onReceive: " + speechToText);
-        utils.translateText(speechToText, targetLanguage);
+        translateAndOutputUtils.translateText(speechToText, targetLanguage);
     }
 }

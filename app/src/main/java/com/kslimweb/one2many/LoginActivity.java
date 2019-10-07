@@ -30,11 +30,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kslimweb.one2many.client.QRCodeButtonActivity;
+import com.kslimweb.one2many.db.Firestore;
 import com.kslimweb.one2many.host.SetHostActivity;
+import com.kslimweb.one2many.signup.SignUpActivity;
 
 import java.util.Objects;
 
-import static com.kslimweb.one2many.SignUp.fromEmailSignUp;
+import static com.kslimweb.one2many.signup.SignUpActivity.fromEmailSignUp;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -129,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         // Sign up account
         signUp.setOnClickListener(v -> {
             signUp.setHighlightColor(Color.BLACK);
-            Intent signUpActivity = new Intent(LoginActivity.this, SignUp.class);
+            Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
             startActivity(signUpActivity);
         });
     }
@@ -195,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
