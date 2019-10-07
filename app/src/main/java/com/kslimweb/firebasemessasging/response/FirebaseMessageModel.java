@@ -1,8 +1,8 @@
-package com.kslimweb.firebasemessasging;
+package com.kslimweb.firebasemessasging.response;
 
 import com.google.gson.annotations.SerializedName;
 
-class FirebaseMessageModel {
+public class FirebaseMessageModel {
 
     @SerializedName("to")
     String to;
@@ -10,7 +10,7 @@ class FirebaseMessageModel {
     @SerializedName("notification")
     NotificationDataModel notification;
 
-    FirebaseMessageModel(String to, NotificationDataModel notification) {
+    public FirebaseMessageModel(String to, NotificationDataModel notification) {
         this.to = to;
         this.notification = notification;
     }

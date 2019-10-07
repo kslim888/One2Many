@@ -1,4 +1,4 @@
-package com.kslimweb.one2many;
+package com.kslimweb.one2many.utils;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
@@ -7,11 +7,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.kslimweb.googletranslate.APIResponse;
-import com.kslimweb.googletranslate.TranslationData;
+import com.kslimweb.googletranslate.response.APIResponse;
+import com.kslimweb.googletranslate.response.TranslationData;
 import com.kslimweb.googletranslate.GoogleTranslateAPI;
 import com.kslimweb.googletranslate.GoogleTranslateClient;
-import com.kslimweb.googletranslate.Translation;
+import com.kslimweb.googletranslate.response.Translation;
+import com.kslimweb.one2many.R;
 
 import java.util.List;
 import java.util.Locale;
@@ -24,25 +25,28 @@ import retrofit2.Response;
 
 import static com.kslimweb.googletranslate.GoogleTranslateClient.TRANSLATION_API_KEY;
 
-public class Utils {
+public class TranslateAndOutputUtils {
 
-    private static final String TAG = Utils.class.getSimpleName();
+    private static final String TAG = TranslateAndOutputUtils.class.getSimpleName();
 
     private TextView outputText;
     private MaterialSpinner languageSpinner;
+    private TextToSpeech textToSpeech;
     private Context context;
 
-    public Utils(TextView outputText, MaterialSpinner languageSpinner, Context context) {
+    public TranslateAndOutputUtils(TextView outputText, MaterialSpinner languageSpinner, Context context) {
         this.outputText = outputText;
         this.languageSpinner = languageSpinner;
         this.context = context;
+        textToSpeech = new TextToSpeech(context, this::checkCanSpeakLanguage);
+        setSpinnerItem();
     }
 
     public void translateText(String inputText, String targetLanguage) {
 
         GoogleTranslateAPI googleTranslateAPI = GoogleTranslateClient.getClient().create(GoogleTranslateAPI.class);
 
-        // TODO googleTranslateAPI.translateWord(inputText, "en", "ms", TRANSLATION_API_KEY) for testing
+        // googleTranslateAPI.translateWord(inputText, "en", "ms", TRANSLATION_API_KEY) for testing
         googleTranslateAPI.translateWord(inputText,
                 targetLanguage,
                 TRANSLATION_API_KEY).enqueue(new Callback<APIResponse>() {
@@ -61,6 +65,7 @@ public class Utils {
 
                     String translatedText = translationList.get(0).getTranslatedText();
                     outputText.setText(translatedText);
+                    outputSpeech(translatedText);
                     Log.d(TAG, "Translated Text: " + translatedText);
 
                 } else {
@@ -130,6 +135,36 @@ public class Utils {
                 languageCode = "vi";
                 break;
         }
+        textToSpeech.setLanguage(new Locale(languageCode));
         return languageCode;
+    }
+
+    private void setSpinnerItem() {
+        String [] languages = context.getResources().getStringArray(R.array.list_of_language);
+        languageSpinner.setItems(languages);
+    }
+
+    private void outputSpeech(String translatedText) {
+        textToSpeech.speak(translatedText, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    private void checkCanSpeakLanguage(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+
+            String language = Locale.getDefault().getDisplayLanguage();
+            int result = textToSpeech.setLanguage(Locale.getDefault());
+
+            Log.d(TAG, "Available Text to Speech Language");
+            Log.d(TAG, "================================");
+            Log.d(TAG, textToSpeech.getAvailableLanguages().toString());
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.d(TAG, "textToSpeech: Not supported output language " + language);
+            } else {
+                Log.d(TAG, "textToSpeech: Can output language " + language);
+            }
+        } else {
+            Log.d(TAG, "textToSpeech: Text To Speech Initialization failed");
+        }
     }
 }

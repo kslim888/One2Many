@@ -15,6 +15,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.kslimweb.firebasemessasging.response.FirebaseMessageModel;
+import com.kslimweb.firebasemessasging.response.NotificationDataModel;
 import com.kslimweb.one2many.R;
 
 import java.util.Random;

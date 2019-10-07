@@ -1,4 +1,4 @@
-package com.kslimweb.one2many;
+package com.kslimweb.one2many.signup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,12 +15,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.kslimweb.one2many.LoginActivity;
+import com.kslimweb.one2many.R;
 
 import java.util.Objects;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    private final String TAG = SignUp.class.getSimpleName();
+    private final String TAG = SignUpActivity.class.getSimpleName();
     public static boolean fromEmailSignUp = false;
     private FirebaseAuth mAuth;
     private EditText password, email;
@@ -51,11 +53,11 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void signUpAccount() {
-        Log.i(TAG, "SignUp");
+        Log.i(TAG, "SignUpActivity");
 
         if (!validate()) { return; }
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignUp.this);
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.setCancelable(false);
@@ -78,7 +80,7 @@ public class SignUp extends AppCompatActivity {
                         // If sign in fails, display a message to the user.
                         Log.i(TAG, "createUserWithEmail:failure", task.getException());
 
-                        new MaterialDialog.Builder(SignUp.this)
+                        new MaterialDialog.Builder(SignUpActivity.this)
                                 .title("Registration Failed")
                                 .content(Objects.requireNonNull(task.getException()).getMessage())
                                 .positiveText("Return")
@@ -98,7 +100,7 @@ public class SignUp extends AppCompatActivity {
                     // After email is sent just logout the user and finish this activity
                     Log.i(TAG, "Send verification email: success", task.getException());
 
-                    MaterialDialog materialDialog = new MaterialDialog.Builder(SignUp.this)
+                    MaterialDialog materialDialog = new MaterialDialog.Builder(SignUpActivity.this)
                             .title("Registration Success")
                             .content("Please verify the email before login")
                             .positiveText("Ok")
@@ -107,7 +109,7 @@ public class SignUp extends AppCompatActivity {
                     materialDialog.setOnDismissListener(dialog -> {
                         mAuth.signOut();
                         finish();
-                        startActivity(new Intent(SignUp.this, LoginActivity.class));
+                        startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
 
                     });
                     materialDialog.show();
@@ -115,7 +117,7 @@ public class SignUp extends AppCompatActivity {
                 } else {
                     // email not sent, so display message
                     Log.i(TAG, "Send verification email: fail", task.getException());
-                    new MaterialDialog.Builder(SignUp.this)
+                    new MaterialDialog.Builder(SignUpActivity.this)
                             .title("Send Verification Email Failed")
                             .content(Objects.requireNonNull(task.getException()).getMessage())
                             .positiveText("Return")

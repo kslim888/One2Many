@@ -37,7 +37,7 @@
         <activity android:name=".client.QRCodeButtonActivity" />
         <activity android:name=".host.SpeechToTextActivity" />
         <activity android:name=".host.ShowQRCodeActivity" />
-        <activity android:name=".SignUp" />
+        <activity android:name=".signup.SignUpActivity" />
         <activity
             android:name=".host.SetHostActivity"
             android:label="One2Many" />
