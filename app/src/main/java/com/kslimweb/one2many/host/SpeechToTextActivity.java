@@ -63,7 +63,7 @@ public class SpeechToTextActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, translateAndOutputUtils.getSpinnerSelectedLanguage());
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, 100);
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         }
     }
 
