@@ -1,5 +1,4 @@
 # One2Many
-![code-inspector](https://www.code-inspector.com/project/963/score/svg)
 ![Android Project](https://img.shields.io/badge/Android-Project-green.svg)
 > This app is an enhancement for translator functions by outputting results of the translation on multiple smart devices. 
 
