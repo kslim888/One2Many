@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
     // material dialog
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:core:3.1.1'
 
     // for QR code generation and scanner
     implementation 'com.github.kenglxn.QRGen:android:2.5.0'
