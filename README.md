@@ -6,7 +6,7 @@
 One2Many Speech Translator able to receives input speech via a single device and display the result on multiple smartphones that have the same app installed
 
 ## Scenario
-The system largely involves with [University College of Technology Sarawak (UCTS)]https://www.ucts.edu.my/ on the first few requirements and scenario. For example, during Muslim chanting, the “Host” can use the system, speak Arabic speech and translate it into Malay. 
+The system largely involves with [University College of Technology Sarawak (UCTS)](https://www.ucts.edu.my/) on the first few requirements and scenario. For example, during Muslim chanting, the “Host” can use the system, speak Arabic speech and translate it into Malay. 
 The other smart devices, which act as “Client” or “Receiver” is responsible for showing the translated text. Also, the translator can support multiple input and output languages, not just Arabic to Malay. 
 
 ## Getting Started
