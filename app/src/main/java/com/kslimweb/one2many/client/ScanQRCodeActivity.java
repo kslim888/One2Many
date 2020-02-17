@@ -14,8 +14,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     private static final String TAG = ScanQRCodeActivity.class.getSimpleName();
     ZXingScannerView scannerView;
 
-    // TODO set build variant for debugging
-    //  Class-Topic will become [test-test]
+    // Class-Topic will become [test-test] for development
     public static String SUBSCRIBE_TOPIC;
 
     @Override

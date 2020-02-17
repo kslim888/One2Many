@@ -1,4 +1,4 @@
-package com.kslimweb.firebasemessasging;
+package com.kslimweb.one2many.firebasemessasging;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -15,8 +15,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.kslimweb.firebasemessasging.response.FirebaseMessageModel;
-import com.kslimweb.firebasemessasging.response.NotificationDataModel;
+import com.kslimweb.one2many.firebasemessasging.response.FirebaseMessageModel;
+import com.kslimweb.one2many.firebasemessasging.response.NotificationDataModel;
 import com.kslimweb.one2many.R;
 
 import java.util.Random;

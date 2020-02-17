@@ -1,6 +1,6 @@
-package com.kslimweb.googletranslate;
+package com.kslimweb.one2many.googletranslate;
 
-import com.kslimweb.googletranslate.response.APIResponse;
+import com.kslimweb.one2many.googletranslate.response.APIResponse;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
@@ -11,10 +11,12 @@ public interface GoogleTranslateAPI {
     Call<APIResponse> translateWord(@Query("q") String inputWord,
                                     @Query("source") String sourceLanguage,
                                     @Query("target") String targetLanguage,
+                                    @Query("model") String model,
                                     @Query("key") String apiKey);
 
     @POST("?")
     Call<APIResponse> translateWord(@Query("q") String inputWord,
-                                           @Query("target") String targetLanguage,
-                                           @Query("key") String apiKey);
+                                    @Query("target") String targetLanguage,
+                                    @Query("model") String model,
+                                    @Query("key") String apiKey);
 }

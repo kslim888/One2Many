@@ -1,4 +1,4 @@
-package com.kslimweb.firebasemessasging.response;
+package com.kslimweb.one2many.firebasemessasging.response;
 
 public class NotificationDataModel {
 

@@ -1,4 +1,4 @@
-package com.kslimweb.firebasemessasging;
+package com.kslimweb.one2many.firebasemessasging;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -1,6 +1,6 @@
-package com.kslimweb.firebasemessasging;
+package com.kslimweb.one2many.firebasemessasging;
 
-import com.kslimweb.firebasemessasging.response.FirebaseMessageModel;
+import com.kslimweb.one2many.firebasemessasging.response.FirebaseMessageModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

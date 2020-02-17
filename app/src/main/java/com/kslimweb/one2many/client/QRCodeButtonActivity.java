@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -47,9 +46,8 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
             requestCameraPermission();
         }
 
-        Button button = findViewById(R.id.read_qr_button);
-        button.setOnClickListener(v -> {
-            if (BuildTypeUtil.isReleaseBuild()) {
+        findViewById(R.id.read_qr_button).setOnClickListener(v -> {
+            if (BuildTypeUtil.isReleaseMode()) {
                 startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCodeActivity.class));
             } else {
                 startActivity(new Intent(QRCodeButtonActivity.this, ClientTranslationActivity.class));
@@ -95,11 +93,11 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
         new MaterialDialog.Builder(QRCodeButtonActivity.this)
                 .icon(getResources().getDrawable(R.drawable.ic_warning_black_24dp))
                 .title("Logging Out")
-                .content("Are you sure you log out ?")
+                .content("Are you sure you want to log out ?")
                 .positiveText("Yes")
                 .negativeText("No")
                 .onAny((dialog, which) -> {
-                    if(which == DialogAction.POSITIVE) {
+                    if (which == DialogAction.POSITIVE) {
                         finish();
                         // firebase sign out
                         mAuth.signOut();

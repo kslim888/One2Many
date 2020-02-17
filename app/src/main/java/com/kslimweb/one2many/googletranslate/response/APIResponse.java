@@ -1,8 +1,7 @@
-package com.kslimweb.googletranslate.response;
+package com.kslimweb.one2many.googletranslate.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.kslimweb.googletranslate.response.TranslationData;
 
 public class APIResponse {
 

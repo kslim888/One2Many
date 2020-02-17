@@ -54,7 +54,7 @@
             android:exported="true"
             android:permission="com.kslimweb.CUSTOM_PERMISSION" />
 
-        <service android:name="com.kslimweb.firebasemessasging.FirebaseCloudMessagingService">
+        <service android:name=".firebasemessasging.FirebaseCloudMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

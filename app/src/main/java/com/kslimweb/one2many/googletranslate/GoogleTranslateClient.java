@@ -1,4 +1,4 @@
-package com.kslimweb.googletranslate;
+package com.kslimweb.one2many.googletranslate;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,7 +13,6 @@ public class GoogleTranslateClient {
 
     public static Retrofit getClient() {
         if (retrofit==null) {
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())

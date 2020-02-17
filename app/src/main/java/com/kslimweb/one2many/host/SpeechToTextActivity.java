@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.kslimweb.firebasemessasging.FirebaseCloudMessagingService;
+import com.kslimweb.one2many.firebasemessasging.FirebaseCloudMessagingService;
 import com.kslimweb.one2many.R;
 import com.kslimweb.one2many.utils.TranslateAndOutputUtils;
 import java.util.ArrayList;

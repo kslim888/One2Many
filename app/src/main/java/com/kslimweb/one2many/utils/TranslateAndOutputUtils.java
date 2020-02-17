@@ -7,11 +7,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.kslimweb.googletranslate.response.APIResponse;
-import com.kslimweb.googletranslate.response.TranslationData;
-import com.kslimweb.googletranslate.GoogleTranslateAPI;
-import com.kslimweb.googletranslate.GoogleTranslateClient;
-import com.kslimweb.googletranslate.response.Translation;
+import com.kslimweb.one2many.googletranslate.response.APIResponse;
+import com.kslimweb.one2many.googletranslate.response.TranslationData;
+import com.kslimweb.one2many.googletranslate.GoogleTranslateAPI;
+import com.kslimweb.one2many.googletranslate.GoogleTranslateClient;
+import com.kslimweb.one2many.googletranslate.response.Translation;
 import com.kslimweb.one2many.R;
 
 import java.util.List;
@@ -23,11 +23,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.kslimweb.googletranslate.GoogleTranslateClient.TRANSLATION_API_KEY;
+import static com.kslimweb.one2many.googletranslate.GoogleTranslateClient.TRANSLATION_API_KEY;
 
 public class TranslateAndOutputUtils {
 
     private static final String TAG = TranslateAndOutputUtils.class.getSimpleName();
+    private final String TRANSLATE_MODEL = "nmt";
 
     private TextView outputText;
     private MaterialSpinner languageSpinner;
@@ -49,6 +50,7 @@ public class TranslateAndOutputUtils {
         // googleTranslateAPI.translateWord(inputText, "en", "ms", TRANSLATION_API_KEY) for testing
         googleTranslateAPI.translateWord(inputText,
                 targetLanguage,
+                TRANSLATE_MODEL,
                 TRANSLATION_API_KEY).enqueue(new Callback<APIResponse>() {
             @Override
             @ParametersAreNonnullByDefault
