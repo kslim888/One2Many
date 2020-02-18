@@ -47,10 +47,10 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
         }
 
         findViewById(R.id.read_qr_button).setOnClickListener(v -> {
-            if (BuildTypeUtil.isReleaseMode()) {
-                startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCodeActivity.class));
-            } else {
+            if (!BuildTypeUtil.isReleaseMode) {
                 startActivity(new Intent(QRCodeButtonActivity.this, ClientTranslationActivity.class));
+            } else {
+                startActivity(new Intent(QRCodeButtonActivity.this, ScanQRCodeActivity.class));
             }
         });
     }
@@ -59,13 +59,13 @@ public class QRCodeButtonActivity extends AppCompatActivity implements ActivityC
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             Snackbar.make(findViewById(android.R.id.content), "Camera access is required to display the camera preview.",
                     Snackbar.LENGTH_INDEFINITE).setAction("OK", view ->
-                    ActivityCompat.requestPermissions(QRCodeButtonActivity.this, new String[] {
+                    ActivityCompat.requestPermissions(QRCodeButtonActivity.this, new String[]{
                             Manifest.permission.CAMERA
                     }, MY_PERMISSION_REQUEST_CAMERA)).show();
         } else {
             Snackbar.make(findViewById(android.R.id.content), "Permission is not available. Requesting camera permission.",
                     Snackbar.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(this, new String[] {
+            ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.CAMERA
             }, MY_PERMISSION_REQUEST_CAMERA);
         }

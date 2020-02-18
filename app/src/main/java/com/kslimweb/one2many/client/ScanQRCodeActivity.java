@@ -2,6 +2,8 @@ package com.kslimweb.one2many.client;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
@@ -28,8 +30,17 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     public void handleResult(Result result) {
         Log.d(TAG, "handleResult: " + result.getText());
         String qrCodeValue = result.getText();
-        SUBSCRIBE_TOPIC = qrCodeValue;
-        startActivity(new Intent(ScanQRCodeActivity.this, ClientTranslationActivity.class));
+        if (qrCodeValue.contains("One2Many")) {
+            SUBSCRIBE_TOPIC = qrCodeValue;
+            startActivity(new Intent(ScanQRCodeActivity.this, ClientTranslationActivity.class));
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Invalid QR Code Scanned")
+                    .setMessage("Please make sure you scan the right QR code displayed by One2Many app")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) ->
+                            scannerView.resumeCameraPreview(this))
+                    .show();
+        }
     }
 
     @Override

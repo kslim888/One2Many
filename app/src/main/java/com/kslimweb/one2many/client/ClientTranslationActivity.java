@@ -43,7 +43,7 @@ public class ClientTranslationActivity extends AppCompatActivity implements Mate
         receiveText = new ReceiveText(outputText, targetLanguageTranslateSpinner, this.getApplicationContext());
         translateAndOutputUtils = new TranslateAndOutputUtils(outputText, targetLanguageTranslateSpinner, this.getApplicationContext());
 
-        if (!BuildTypeUtil.isReleaseMode()) {
+        if (!BuildTypeUtil.isReleaseMode) {
             SUBSCRIBE_TOPIC = "test-test";
         }
 

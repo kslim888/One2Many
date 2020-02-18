@@ -21,9 +21,9 @@ import com.kslimweb.one2many.R;
 public class SetHostActivity extends AppCompatActivity {
 
     private static final String TAG = SetHostActivity.class.getSimpleName();
+    static final String INTENT_EXTRA_KEY = "EVENT_NAME";
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    EditText className;
     EditText topicName;
 
     @Override
@@ -49,18 +49,15 @@ public class SetHostActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         Button button = findViewById(R.id.generate_qr_code);
-        className = findViewById(R.id.class_name);
-        topicName = findViewById(R.id.topic_name);
+        topicName = findViewById(R.id.event_name);
 
         button.setOnClickListener(v -> {
 
             if(validate()) {
-                String classNameString = className.getText().toString();
                 String topicNameString = topicName.getText().toString();
 
                 startActivity(new Intent(SetHostActivity.this, ShowQRCodeActivity.class)
-                        .putExtra("CLASS_NAME", classNameString)
-                        .putExtra("TOPIC_NAME", topicNameString)
+                        .putExtra(INTENT_EXTRA_KEY, topicNameString)
                 );
             }
         });
@@ -69,15 +66,7 @@ public class SetHostActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String classNameString = className.getText().toString();
         String topicNameString = topicName.getText().toString();
-
-        if (classNameString.isEmpty()) {
-            className.setError("Class name is empty");
-            valid = false;
-        } else {
-            className.setError(null);
-        }
 
         if (topicNameString.isEmpty()) {
             topicName.setError("Topic name is empty");
