@@ -33,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Sign Up");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_sign_up);
@@ -82,7 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         new MaterialDialog.Builder(SignUpActivity.this)
                                 .title("Registration Failed")
-                                .content(Objects.requireNonNull(task.getException()).getMessage())
+                                .content(Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()))
                                 .positiveText("Return")
                                 .show();
                         progressDialog.dismiss();

@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -65,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("One2Many Sign In");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
         setContentView(R.layout.activity_login);
 
         findViews();
@@ -80,8 +82,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuthListener = firebaseAuth -> {
 
-            if(!this.isFinishing()) {
-                if(!fromEmailSignUp) {
+            if (!this.isFinishing()) {
+                if (!fromEmailSignUp) {
                     showProgress();
                 }
             }
@@ -90,9 +92,9 @@ public class LoginActivity extends AppCompatActivity {
 
             if (!fromEmailSignUp) {
                 // user already logged in
-                if(firebaseAuth.getCurrentUser() != null && !googleSignIn) {
+                if (firebaseAuth.getCurrentUser() != null && !googleSignIn) {
                     Log.d(TAG, "onCreate: Check user email is verified");
-                    if(checkIsEmailVerified()) {
+                    if (checkIsEmailVerified()) {
                         checkPersonRole();
                     }
                 } else {
@@ -151,6 +153,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "checkPersonRole: firebaseUser is null");
             return;
         }
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
         jumpActivityOnPersonRole(firebaseUser);
     }
 
@@ -162,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
 
                     DocumentSnapshot userDocument = task.getResult();
-                    progressDialog.dismiss();
 
                     if (userDocument != null) {
                         String personRole = userDocument.getString("personRole");
@@ -171,12 +174,15 @@ public class LoginActivity extends AppCompatActivity {
                             if (personRole.equals("Host")) {
                                 // go to host activity
                                 Log.d(TAG, "checkPersonRole: Teacher");
-                                startActivity(new Intent(LoginActivity.this, SetHostActivity.class));
-
+                                startActivity(new Intent(LoginActivity.this, SetHostActivity.class)
+                                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             } else {
                                 // go to client activity
                                 Log.d(TAG, "checkPersonRole: Student");
-                                startActivity(new Intent(LoginActivity.this, QRCodeButtonActivity.class));
+                                startActivity(new Intent(LoginActivity.this, QRCodeButtonActivity.class)
+                                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             }
                         } else {
                             Log.d(TAG, "jumpActivityOnPersonRole: Can't find the Person Role");
@@ -188,7 +194,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void googleSignIn() {
-        showProgress();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -199,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
+            showProgress();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
@@ -225,16 +231,20 @@ public class LoginActivity extends AppCompatActivity {
     // Google sign in
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
 
+
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+
                         // Google Sign in success
                         Log.i(TAG, "Firebase Auth Google: success");
 
                         boolean newuser = task.getResult().getAdditionalUserInfo().isNewUser();
-                        if(newuser) {
+                        if (newuser) {
                             Log.d(TAG, "firebaseAuthWithGoogle: First time user");
                             // prompt first time user register with role
                             setFirstTimeGoogleRegister();
@@ -244,9 +254,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } else {
                         // If Google sign in fails, display a message to the user.
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+
                         new MaterialDialog.Builder(LoginActivity.this)
                                 .title("Sign In Failed")
-                                .content(task.getException().getMessage())
+                                .content(Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()))
                                 .positiveText("Return")
                                 .show();
                     }
@@ -263,7 +276,7 @@ public class LoginActivity extends AppCompatActivity {
                     View view = dialog.getCustomView();
                     if (view != null) {
                         Spinner DialogRoleSpinner = view.findViewById(R.id.dialog_role_spinner);
-                        String role =  DialogRoleSpinner.getSelectedItem().toString();
+                        String role = DialogRoleSpinner.getSelectedItem().toString();
                         Log.d(TAG, "onClick Dialog Spinner: " + role);
 
                         new Firestore().postToFirestore(mAuth, DialogRoleSpinner, FirebaseFirestore.getInstance());
@@ -285,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
         showProgress();
 
         // true for error, false for no error
-        if(validateError(email, password)) {
+        if (validateError(email, password)) {
             progressDialog.dismiss();
             return;
         }
@@ -294,7 +307,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
 
-                        if(checkIsEmailVerified()) {
+                        if (checkIsEmailVerified()) {
                             progressDialog.dismiss();
                             checkPersonRole();
                             Log.d(TAG, "attemptLogin: success ");
@@ -302,7 +315,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         new MaterialDialog.Builder(LoginActivity.this)
                                 .title("Sign in failed")
-                                .content(task.getException().getMessage())
+                                .content(Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()))
                                 .positiveText("Return")
                                 .show();
                         progressDialog.dismiss();
@@ -398,10 +411,8 @@ public class LoginActivity extends AppCompatActivity {
                 .positiveText("Yes")
                 .negativeText("No")
                 .onAny((dialog, which) -> {
-                    if(which == DialogAction.POSITIVE) {
+                    if (which == DialogAction.POSITIVE) {
                         finish();
-                        int pid = android.os.Process.myPid();
-                        android.os.Process.killProcess(pid);
                     }
                 })
                 .show();
@@ -410,7 +421,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if ( progressDialog!=null && progressDialog.isShowing() ){
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.cancel();
         }
     }
