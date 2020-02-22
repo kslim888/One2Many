@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         release {
-            storeFile file("$rootProject.projectDir/One2Many.jks")
+            storeFile file("$rootProject.projectDir/one2many.jks")
             keyAlias = 'upload'
             storePassword 'android'
             keyPassword 'android'
