@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.kslimweb.one2many.R;
+import com.kslimweb.one2many.utils.BuildTypeUtil;
+
 import net.glxn.qrgen.android.QRCode;
 import java.util.Objects;
 
@@ -16,6 +17,7 @@ import static com.kslimweb.one2many.host.SetHostActivity.INTENT_EXTRA_KEY;
 
 public class ShowQRCodeActivity extends AppCompatActivity {
 
+    // Event will become [One2Many-test] for development
     public static String SUBSCRIBE_TOPIC;
 
     @Override
@@ -30,8 +32,13 @@ public class ShowQRCodeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String topicNameString = intent.getStringExtra(INTENT_EXTRA_KEY);
+        String finalQrValue;
 
-        String finalQrValue =  "One2Many-" + topicNameString + "-" + generateRandomNumber();
+        if (!BuildTypeUtil.isReleaseMode)
+            finalQrValue = "One2Many-test";
+        else
+            finalQrValue =  "One2Many-" + topicNameString + "-" + generateRandomNumber();
+
         SUBSCRIBE_TOPIC = finalQrValue;
 
         Bitmap bitmap = QRCode.from(finalQrValue).bitmap();

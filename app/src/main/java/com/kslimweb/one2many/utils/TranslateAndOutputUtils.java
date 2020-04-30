@@ -28,7 +28,6 @@ import static com.kslimweb.one2many.googletranslate.GoogleTranslateClient.TRANSL
 public class TranslateAndOutputUtils {
 
     private static final String TAG = TranslateAndOutputUtils.class.getSimpleName();
-    private final String TRANSLATE_MODEL = "nmt";
 
     private TextView outputText;
     private MaterialSpinner languageSpinner;
@@ -48,6 +47,7 @@ public class TranslateAndOutputUtils {
         GoogleTranslateAPI googleTranslateAPI = GoogleTranslateClient.getClient().create(GoogleTranslateAPI.class);
 
         // googleTranslateAPI.translateWord(inputText, "en", "ms", TRANSLATION_API_KEY) for testing
+        String TRANSLATE_MODEL = "nmt";
         googleTranslateAPI.translateWord(inputText,
                 targetLanguage,
                 TRANSLATE_MODEL,

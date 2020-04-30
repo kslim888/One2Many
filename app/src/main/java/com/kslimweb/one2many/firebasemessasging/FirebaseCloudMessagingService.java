@@ -9,8 +9,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -33,20 +35,21 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
 
     /**
      * Called when message is received.
+     *
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        if(remoteMessage.getNotification() != null) {
+        if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "FCM TranslationData: " + remoteMessage.getData());
             Log.d(TAG, "FCM Title: " + remoteMessage.getNotification().getTitle());
             Log.d(TAG, "FCM Message: " + remoteMessage.getNotification().getBody());
 
             // show notification if app is in foreground
-            if(remoteMessage.getData().isEmpty()) {
-               setSpeechToText(remoteMessage.getNotification().getBody());
+            if (remoteMessage.getData().isEmpty()) {
+                setSpeechToText(remoteMessage.getNotification().getBody());
 //                showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
             }
         }
@@ -66,7 +69,7 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                   NOTIFICATION_CHANNEL_ID,
+                    NOTIFICATION_CHANNEL_ID,
                     "Notification",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
@@ -92,13 +95,13 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setColor(Color.BLUE)
                 .setLights(Color.BLUE, 1000, 300)
-                .setDefaults(Notification.DEFAULT_ALL);
-//               .setSmallIcon(R.drawable.ic_message_black_24dp);
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.mipmap.ic_launcher);
 
         notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
     }
 
-     public void sendNotification(String title, String body) {
+    public void sendNotification(String title, String body) {
         NotificationDataModel notifyData = new NotificationDataModel(title, body);
         FirebaseMessageModel firebaseMessage = new FirebaseMessageModel("/topics/" + SUBSCRIBE_TOPIC, notifyData);
 
@@ -112,7 +115,7 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
 
             @Override
             public void onFailure(Call<FirebaseMessageModel> call, Throwable t) {
-                Log.d(TAG,"Message Failed send");
+                Log.d(TAG, "Message Failed send");
                 Log.d(TAG, t.getMessage());
             }
         });
